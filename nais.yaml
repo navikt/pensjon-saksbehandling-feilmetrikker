@@ -1,0 +1,33 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pensjon-saksbehandling-feilmetrikker
+  namespace: defaultﬁ
+  labels:
+    team: pensjon-saksbehandling
+spec:
+  image: repo.adeo.no:5443/pensjon-saksbehandling-feilmetrikker:latest
+  team: pensjon-saksbehandling
+  port: 8080
+  ingresses:
+    - https://pensjon-saksbehandling-feilmetrikker.nais.preprod.local
+  liveness:
+    path: isalive
+    initialDelay: 5
+  readiness:
+    path: isready
+    initialDelay: 5
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 90
+  prometheus:
+    enabled: true
+    path: /metrics
+  webproxy: true
+  vault:
+    enabled: true
