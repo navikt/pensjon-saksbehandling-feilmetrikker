@@ -36,4 +36,4 @@ jobs:
         with:
           cluster: dev-fss
           team: pensjon-saksbehandling
-          resources: nais/dev-fss.yaml
+          resources: nais.yaml
