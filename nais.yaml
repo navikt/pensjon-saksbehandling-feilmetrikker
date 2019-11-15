@@ -29,5 +29,3 @@ spec:
     enabled: true
     path: /metrics
   webproxy: true
-  vault:
-    enabled: true
