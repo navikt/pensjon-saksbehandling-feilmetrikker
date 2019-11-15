@@ -4,10 +4,10 @@ metadata:
   name: pensjon-saksbehandling-feilmetrikker
   namespace: default
   labels:
-    team: pensjon-saksbehandling
+    team: pensjonsaksbehandling
 spec:
   image: {{ image }}:{{ tag }}
-  team: pensjon-saksbehandling
+  team: pensjonsaksbehandling
   port: 8080
   ingresses:
     - https://pensjon-saksbehandling-feilmetrikker.nais.preprod.local
