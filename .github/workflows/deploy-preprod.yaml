@@ -5,6 +5,9 @@ jobs:
     name: Build, push and deploy to dev-fss
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-java@v1
+          with:
+            java-version: '12.x'
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build code
