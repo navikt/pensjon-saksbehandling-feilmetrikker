@@ -17,8 +17,6 @@ import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.exporter.common.TextFormat
 
 fun Application.nais(
-    isAliveCheck: () -> Boolean = { true },
-    isReadyCheck: () -> Boolean = { true },
     collectorRegistry: CollectorRegistry = CollectorRegistry.defaultRegistry
 ) {
 
@@ -27,8 +25,8 @@ fun Application.nais(
     }
 
     routing {
-        isAliveRouting(isAliveCheck)
-        isReadyRouting(isReadyCheck)
+        isAliveRouting()
+        isReadyRouting()
         metricsRouting(collectorRegistry)
     }
 }
@@ -42,15 +40,14 @@ private fun Routing.metricsRouting(collectorRegistry: CollectorRegistry) {
     }
 }
 
-private fun Routing.isReadyRouting(isReadyCheck: () -> Boolean) = probeRouting(isReadyCheck, "/isReady", "READY")
+private fun Routing.isReadyRouting() = probeRouting("/isReady")
 
-private fun Routing.isAliveRouting(isAliveCheck: () -> Boolean) = probeRouting(isAliveCheck, "/isAlive", "ALIVE")
+private fun Routing.isAliveRouting() = probeRouting("/isAlive")
 
-private fun Routing.probeRouting(check: () -> Boolean, path: String, state: String) {
+private fun Routing.probeRouting(path: String) {
     get(path) {
-        with(
-            if (check()) "" to HttpStatusCode.OK
-            else "NOT " to HttpStatusCode.ServiceUnavailable
-        ) { call.respondText(first + state, ContentType.Text.Plain, second) }
+        with("" to HttpStatusCode.OK) {
+            call.respondText(first, ContentType.Text.Plain, second)
+        }
     }
 }
