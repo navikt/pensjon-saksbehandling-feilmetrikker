@@ -30,32 +30,14 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:5.2")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
 
-    implementation("io.ktor:ktor-jackson:$ktorVersion")
-
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-
-    implementation("org.apache.kafka:kafka-streams:$kafkaVersion")
-
     implementation("io.ktor:ktor-metrics-micrometer:$ktorVersion")
     implementation("io.micrometer:micrometer-registry-prometheus:$micrometerRegistryPrometheusVersion")
 
-    implementation("org.flywaydb:flyway-core:$flywayVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("no.nav:vault-jdbc:$vaultJdbcVersion")
     implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
 
-
-    implementation("io.ktor:ktor-auth-jwt:$ktorVersion") {
-        exclude(group = "junit")
-    }
-
     testImplementation("io.ktor:ktor-client-cio:$ktorVersion")
-
-    testImplementation("org.awaitility:awaitility:3.1.6")
-
-    testImplementation("io.mockk:mockk:$mockkVersion")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
