@@ -12,10 +12,10 @@ spec:
   ingresses:
     - https://pensjon-saksbehandling-feilmetrikker.nais.preprod.local
   liveness:
-    path: isalive
+    path: isAlive
     initialDelay: 5
   readiness:
-    path: isready
+    path: isReady
     initialDelay: 5
   resources:
     limits:
