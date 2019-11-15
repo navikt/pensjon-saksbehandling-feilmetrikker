@@ -47,10 +47,10 @@ private fun Routing.isReadyRouting(isReadyCheck: () -> Boolean) = probeRouting(i
 private fun Routing.isAliveRouting(isAliveCheck: () -> Boolean) = probeRouting(isAliveCheck, "/isAlive", "ALIVE")
 
 private fun Routing.probeRouting(check: () -> Boolean, path: String, state: String) {
-   get(path) {
-      with(
-         if (check()) "" to HttpStatusCode.OK
-         else "NOT " to HttpStatusCode.ServiceUnavailable
-      ) { call.respondText(first+state, ContentType.Text.Plain, second) }
-   }
+    get(path) {
+        with(
+            if (check()) "" to HttpStatusCode.OK
+            else "NOT " to HttpStatusCode.ServiceUnavailable
+        ) { call.respondText(first + state, ContentType.Text.Plain, second) }
+    }
 }

@@ -2,11 +2,11 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: pensjon-saksbehandling-feilmetrikker
-  namespace: defaultﬁ
+  namespace: default
   labels:
     team: pensjon-saksbehandling
 spec:
-  image: repo.adeo.no:5443/pensjon-saksbehandling-feilmetrikker:latest
+  image: {{ image }}:{{ tag }}
   team: pensjon-saksbehandling
   port: 8080
   ingresses:
