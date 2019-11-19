@@ -1,15 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion = "1.2.4"
-val jacksonVersion = "2.9.8"
-val kafkaVersion = "2.3.0"
-val flywayVersion = "6.0.0-beta"
 val hikariVersion = "3.3.1"
 val vaultJdbcVersion = "1.3.1"
-val kotliqueryVersion = "1.3.0"
 val junitJupiterVersion = "5.5.2"
-val wireMockVersion = "2.23.2"
-val mockkVersion = "1.9.3"
 val micrometerRegistryPrometheusVersion = "1.1.5"
 val mainClass = "no.nav.pensjon.saksbehandling.AppKt"
 
@@ -35,9 +29,6 @@ dependencies {
 
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("no.nav:vault-jdbc:$vaultJdbcVersion")
-    implementation("com.github.seratch:kotliquery:$kotliqueryVersion")
-
-    testImplementation("io.ktor:ktor-client-cio:$ktorVersion")
 
     testImplementation("org.testcontainers:testcontainers:1.12.3")
     testImplementation("org.testcontainers:oracle-xe:1.12.3")
@@ -61,8 +52,6 @@ java {
 }
 
 tasks.named<Jar>("jar") {
-    baseName = "app"
-
     manifest {
         attributes["Main-Class"] = mainClass
         attributes["Class-Path"] = configurations.runtimeClasspath.get().joinToString(separator = " ") {
