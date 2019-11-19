@@ -52,6 +52,8 @@ java {
 }
 
 tasks.named<Jar>("jar") {
+    baseName = "app"
+
     manifest {
         attributes["Main-Class"] = mainClass
         attributes["Class-Path"] = configurations.runtimeClasspath.get().joinToString(separator = " ") {
