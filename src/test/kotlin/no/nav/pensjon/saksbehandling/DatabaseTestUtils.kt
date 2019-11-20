@@ -10,15 +10,13 @@ internal object DatabaseTestUtils {
         return OracleContainer("oracleinanutshell/oracle-xe-11g")
     }
 
-    fun createOracleDatasource(oracleContainer: OracleContainer): HikariDataSource {
-        return with(HikariConfig()) {
-            maxLifetime = 100000
-            connectionTimeout = 25000
-            jdbcUrl = oracleContainer.jdbcUrl
-            username = oracleContainer.username
-            password = oracleContainer.password
-            HikariDataSource(this)
-        }
+    fun createOracleDatasource(oracleContainer: OracleContainer) = with(HikariConfig()) {
+        maxLifetime = 30001L
+        connectionTimeout = 2500L
+        jdbcUrl = oracleContainer.jdbcUrl
+        username = oracleContainer.username
+        password = oracleContainer.password
+        HikariDataSource(this)
     }
 
     fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
