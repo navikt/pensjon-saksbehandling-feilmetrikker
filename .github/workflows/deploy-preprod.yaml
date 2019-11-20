@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build code
-        run: ./gradlew test build
+        run: ./gradlew test build --stacktrace
       - name: Create Docker tag
         env:
           NAME: pensjon-saksbehandling-feilmetrikker
