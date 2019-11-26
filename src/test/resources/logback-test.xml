@@ -4,9 +4,9 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <logger name="no.nav.pensjon.saksbehandling" level="TRACE" />
+    <logger name="no.nav.pensjon.saksbehandling" level="ERROR" />
 
-    <root level="TRACE">
+    <root level="ERROR">
         <appender-ref ref="STDOUT_JSON" />
     </root>
 

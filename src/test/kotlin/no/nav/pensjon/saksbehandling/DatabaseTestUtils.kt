@@ -23,15 +23,20 @@ internal object DatabaseTestUtils {
                 HikariDataSource(this)
             }
         } catch (e: SQLException) {
-            log.error(e.message, e)
+            log.error("Creating dataSource: " + e.message, e)
             throw e
         }
     }
 
     fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
-        setDatabaseUserForSession(dataSource)
-        createTableT_AVVIKSINFORMASJON(dataSource)
-        insertDataInT_AVVIKSINFORMASJON(dataSource)
+        try {
+            setDatabaseUserForSession(dataSource)
+            createTableT_AVVIKSINFORMASJON(dataSource)
+            insertDataInT_AVVIKSINFORMASJON(dataSource)
+        } catch (e: SQLException) {
+            log.error("Populating database: " + e.message, e)
+            throw e
+        }
     }
 
     private fun setDatabaseUserForSession(dataSource: DataSource) {
