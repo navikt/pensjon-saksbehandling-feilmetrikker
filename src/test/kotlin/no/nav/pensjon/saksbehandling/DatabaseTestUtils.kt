@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.OracleContainer
 import java.sql.SQLException
+import java.util.*
 import javax.sql.DataSource
 
 internal object DatabaseTestUtils {
@@ -14,14 +15,15 @@ internal object DatabaseTestUtils {
     fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
     fun createOracleDatasource(oracleContainer: OracleContainer): HikariDataSource {
         try {
-            return with(HikariConfig()) {
-                maxLifetime = 30001L
-                connectionTimeout = 2500L
-                jdbcUrl = oracleContainer.jdbcUrl
-                username = oracleContainer.username
-                password = oracleContainer.password
-                HikariDataSource(this)
-            }
+            return HikariDataSource(
+                HikariConfig().apply {
+                    addDataSourceProperty("serverTimezone", TimeZone.getDefault().id)
+                    maxLifetime = 30001L
+                    connectionTimeout = 2500L
+                    jdbcUrl = oracleContainer.jdbcUrl
+                    username = oracleContainer.username
+                    password = oracleContainer.password
+                })
         } catch (e: SQLException) {
             log.error("Creating dataSource: " + e.message, e)
             throw e
