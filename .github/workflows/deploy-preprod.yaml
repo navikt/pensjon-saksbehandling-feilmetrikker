@@ -4,9 +4,6 @@ jobs:
   deploy-to-dev:
     name: Build, push and deploy to dev-fss
     runs-on: ubuntu-latest
-    runs:
-      - using: 'docker'
-        image: 'docker://oracleinanutshell/oracle-xe-11g'
     steps:
       - uses: actions/setup-java@v1
         with:
@@ -14,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build code
-        run: ./gradlew test build --stacktrace
+        run: ./gradlew test build --stacktrace --debug
       - name: Create Docker tag
         env:
           NAME: pensjon-saksbehandling-feilmetrikker
