@@ -2,7 +2,6 @@ package no.nav.pensjon.saksbehandling
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import no.nav.pensjon.saksbehandling.database.DataSourceConfig
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.OracleContainer
 import java.sql.SQLException
@@ -22,8 +21,8 @@ internal object DatabaseTestUtils {
                     addDataSourceProperty("serverTimezone", TimeZone.getDefault())
                     addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
                     addDataSourceProperty("useLegacyDatetimeCode", false)
-                    addDataSourceProperty( "oracle.jdbc.timezoneAsRegion" , "true" )
-                    addDataSourceProperty( "oracle.jdbc.timestampTzInGmt" , "true" )
+                    addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "true")
+                    addDataSourceProperty("oracle.jdbc.timestampTzInGmt", "true")
                     maxLifetime = 30001L
                     connectionTimeout = 2500L
                     jdbcUrl = oracleContainer.jdbcUrl
