@@ -2,50 +2,27 @@ package no.nav.pensjon.saksbehandling
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import org.slf4j.LoggerFactory
 import org.testcontainers.containers.OracleContainer
-import java.sql.SQLException
-import java.util.*
 import javax.sql.DataSource
 
 internal object DatabaseTestUtils {
 
-    private val log = LoggerFactory.getLogger(DatabaseTestUtils::class.java)
-
     fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
-    fun createOracleDatasource(oracleContainer: OracleContainer): HikariDataSource {
-        try {
 
-            return HikariDataSource(
-                HikariConfig().apply {
-                    addDataSourceProperty("serverTimezone", TimeZone.getDefault().id)
-                    addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
-                    addDataSourceProperty("useLegacyDatetimeCode", false)
-                    addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "true")
-                    addDataSourceProperty("oracle.jdbc.timestampTzInGmt", "true")
-                    maxLifetime = 30001L
-                    connectionTimeout = 2500L
-                    jdbcUrl = oracleContainer.jdbcUrl
-                    username = oracleContainer.username
-                    password = oracleContainer.password
-                    maximumPoolSize = 10
-
-                })
-        } catch (e: SQLException) {
-            log.info("Creating dataSource: " + e.message, e)
-            throw e
-        }
-    }
+    fun createOracleDatasource(oracleContainer: OracleContainer) = HikariDataSource(
+        HikariConfig().apply {
+            addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "false")
+            maxLifetime = 30001L
+            connectionTimeout = 2500L
+            jdbcUrl = oracleContainer.jdbcUrl
+            username = oracleContainer.username
+            password = oracleContainer.password
+        })
 
     fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
-        try {
-            setDatabaseUserForSession(dataSource)
-            createTableT_AVVIKSINFORMASJON(dataSource)
-            insertDataInT_AVVIKSINFORMASJON(dataSource)
-        } catch (e: SQLException) {
-            log.info("Populating database: " + e.message, e)
-            throw e
-        }
+        setDatabaseUserForSession(dataSource)
+        createTableT_AVVIKSINFORMASJON(dataSource)
+        insertDataInT_AVVIKSINFORMASJON(dataSource)
     }
 
     private fun setDatabaseUserForSession(dataSource: DataSource) {
@@ -57,7 +34,6 @@ internal object DatabaseTestUtils {
     private fun createTableT_AVVIKSINFORMASJON(dataSource: DataSource) {
         dataSource.connection.createStatement()
             .executeQuery("CREATE TABLE PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID NUMBER, APPLIKASJON VARCHAR2(50 CHAR))");
-
     }
 
     private fun insertDataInT_AVVIKSINFORMASJON(dataSource: DataSource) {
@@ -68,5 +44,4 @@ internal object DatabaseTestUtils {
         dataSource.connection.createStatement()
             .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(2, 'PSELV')");
     }
-
 }
