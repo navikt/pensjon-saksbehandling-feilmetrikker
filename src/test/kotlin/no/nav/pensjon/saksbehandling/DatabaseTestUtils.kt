@@ -2,6 +2,7 @@ package no.nav.pensjon.saksbehandling
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import no.nav.pensjon.saksbehandling.database.DataSourceConfig
 import org.slf4j.LoggerFactory
 import org.testcontainers.containers.OracleContainer
 import java.sql.SQLException
@@ -28,9 +29,11 @@ internal object DatabaseTestUtils {
                     jdbcUrl = oracleContainer.jdbcUrl
                     username = oracleContainer.username
                     password = oracleContainer.password
+                    maximumPoolSize = 10
+
                 })
         } catch (e: SQLException) {
-            log.error("Creating dataSource: " + e.message, e)
+            log.info("Creating dataSource: " + e.message, e)
             throw e
         }
     }
@@ -41,7 +44,7 @@ internal object DatabaseTestUtils {
             createTableT_AVVIKSINFORMASJON(dataSource)
             insertDataInT_AVVIKSINFORMASJON(dataSource)
         } catch (e: SQLException) {
-            log.error("Populating database: " + e.message, e)
+            log.info("Populating database: " + e.message, e)
             throw e
         }
     }

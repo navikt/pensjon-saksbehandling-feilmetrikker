@@ -10,9 +10,12 @@ internal class Database(private val dataSource: DataSource) {
 
     fun countTechnicalErrorsFromPsak(): Int {
         try {
-            val response = dataSource.connection.prepareStatement(QUERY).executeQuery()
-            response.next()
-            return response.getInt(1)
+            dataSource.connection.use {
+                val response = it.prepareStatement(QUERY).executeQuery()
+                response.next()
+                return response.getInt(1)
+            }
+
         } catch (e: SQLException) {
             throw CantQueryPenDatabase("Error contacting pen database", e)
         }
