@@ -18,7 +18,7 @@ internal object DatabaseTestUtils {
 
             return HikariDataSource(
                 HikariConfig().apply {
-                    addDataSourceProperty("serverTimezone", TimeZone.getDefault())
+                    addDataSourceProperty("serverTimezone", TimeZone.getDefault().id)
                     addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
                     addDataSourceProperty("useLegacyDatetimeCode", false)
                     addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "true")
