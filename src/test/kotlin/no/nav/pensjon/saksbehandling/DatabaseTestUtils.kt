@@ -15,11 +15,14 @@ internal object DatabaseTestUtils {
     fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
     fun createOracleDatasource(oracleContainer: OracleContainer): HikariDataSource {
         try {
+
             return HikariDataSource(
                 HikariConfig().apply {
                     addDataSourceProperty("serverTimezone", TimeZone.getDefault())
                     addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
                     addDataSourceProperty("useLegacyDatetimeCode", false)
+                    addDataSourceProperty( "oracle.jdbc.timezoneAsRegion" , "true" )
+                    addDataSourceProperty( "oracle.jdbc.timestampTzInGmt" , "true" )
                     maxLifetime = 30001L
                     connectionTimeout = 2500L
                     jdbcUrl = oracleContainer.jdbcUrl
