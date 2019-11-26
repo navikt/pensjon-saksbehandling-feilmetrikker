@@ -18,11 +18,11 @@ internal object DatabaseTestUtils {
 
             return HikariDataSource(
                 HikariConfig().apply {
-                    addDataSourceProperty("serverTimezone", TimeZone.getDefault().id)
-                    addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
-                    addDataSourceProperty("useLegacyDatetimeCode", false)
-                    addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "true")
-                    addDataSourceProperty("oracle.jdbc.timestampTzInGmt", "true")
+                    //addDataSourceProperty("serverTimezone", TimeZone.getDefault().id)
+                    //addDataSourceProperty("useJDBCCompliantTimezoneShift", true)
+                    //addDataSourceProperty("useLegacyDatetimeCode", false)
+                    addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "false")
+                    //addDataSourceProperty("oracle.jdbc.timestampTzInGmt", "true")
                     maxLifetime = 30001L
                     connectionTimeout = 2500L
                     jdbcUrl = oracleContainer.jdbcUrl
