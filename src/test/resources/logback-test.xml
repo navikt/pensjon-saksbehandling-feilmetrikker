@@ -4,7 +4,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <logger name="no.nav.pensjon.saksbehandling" level="INFO" />
+    <logger name="no.nav.pensjon.saksbehandling" level="TRACE" />
 
     <root level="TRACE">
         <appender-ref ref="STDOUT_JSON" />

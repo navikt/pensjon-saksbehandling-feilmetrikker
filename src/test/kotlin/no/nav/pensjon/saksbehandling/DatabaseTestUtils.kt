@@ -2,19 +2,30 @@ package no.nav.pensjon.saksbehandling
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.slf4j.LoggerFactory
 import org.testcontainers.containers.OracleContainer
+import java.sql.SQLException
 import javax.sql.DataSource
 
 internal object DatabaseTestUtils {
-    fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
 
-    fun createOracleDatasource(oracleContainer: OracleContainer) = with(HikariConfig()) {
-        maxLifetime = 30001L
-        connectionTimeout = 2500L
-        jdbcUrl = oracleContainer.jdbcUrl
-        username = oracleContainer.username
-        password = oracleContainer.password
-        HikariDataSource(this)
+    private val log = LoggerFactory.getLogger(DatabaseTestUtils::class.java)
+
+    fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
+    fun createOracleDatasource(oracleContainer: OracleContainer): HikariDataSource {
+        try {
+            return with(HikariConfig()) {
+                maxLifetime = 30001L
+                connectionTimeout = 2500L
+                jdbcUrl = oracleContainer.jdbcUrl
+                username = oracleContainer.username
+                password = oracleContainer.password
+                HikariDataSource(this)
+            }
+        } catch (e: SQLException) {
+            log.error(e.message, e)
+            throw e
+        }
     }
 
     fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
