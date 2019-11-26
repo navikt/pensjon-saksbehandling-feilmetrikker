@@ -30,17 +30,9 @@ internal object DatabaseTest {
 
     @Test
     fun `given 2 errors registered from psak, 2 errors will be posted to metrics`() {
-
-
-        try {
-            val oracleDataSource = createOracleDatasource(oracleContainer)
-            populateT_AVVIKSINFORMASJON(oracleDataSource)
-            val database = Database(oracleDataSource)
-            println(database.countTechnicalErrorsFromPsak())
-            assertEquals(SUM_TECHNICAL_ERRORS_FROM_PSAK, database.countTechnicalErrorsFromPsak())
-        } catch (e: Exception) {
-            println(e.message)
-            println(e.stackTrace)
-        }
+        val oracleDataSource = createOracleDatasource(oracleContainer)
+        populateT_AVVIKSINFORMASJON(oracleDataSource)
+        val database = Database(oracleDataSource)
+        assertEquals(SUM_TECHNICAL_ERRORS_FROM_PSAK, database.countTechnicalErrorsFromPsak())
     }
 }

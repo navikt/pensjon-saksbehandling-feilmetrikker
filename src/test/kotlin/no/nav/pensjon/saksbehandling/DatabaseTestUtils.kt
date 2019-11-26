@@ -6,9 +6,7 @@ import org.testcontainers.containers.OracleContainer
 import javax.sql.DataSource
 
 internal object DatabaseTestUtils {
-    fun setupOracleContainer(): OracleContainer {
-        return OracleContainer("oracleinanutshell/oracle-xe-11g")
-    }
+    fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
 
     fun createOracleDatasource(oracleContainer: OracleContainer) = with(HikariConfig()) {
         maxLifetime = 30001L

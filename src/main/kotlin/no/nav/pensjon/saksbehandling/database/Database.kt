@@ -14,7 +14,7 @@ internal class Database(private val dataSource: DataSource) {
             response.next()
             return response.getInt(1)
         } catch (e: SQLException) {
-            throw RuntimeException("Error contacting pen database", e)
+            throw CantQueryPenDatabase("Error contacting pen database", e)
         }
     }
 }

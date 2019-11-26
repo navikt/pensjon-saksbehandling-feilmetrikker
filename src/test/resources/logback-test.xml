@@ -6,7 +6,7 @@
 
     <logger name="no.nav.pensjon.saksbehandling" level="INFO" />
 
-    <root level="INFO">
+    <root level="TRACE">
         <appender-ref ref="STDOUT_JSON" />
     </root>
 
