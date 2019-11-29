@@ -30,3 +30,6 @@ spec:
     path: /metrics
   vault:
     enabled: true
+    paths:
+      - mountPath: /secrets/oracle
+        kvPath: oracle/data/dev/creds/pen_q0-saksbehandling-feilmetrikker
