@@ -15,8 +15,8 @@ internal object DataSourceConfig {
     fun createDatasource(env: Map<String, String>): HikariDataSource {
         val config = HikariConfig()
         config.jdbcUrl = getFromEnvironment(env, "JDBC_URL")
-        config.username = getFromEnvironment(env, "username")
-        config.password = getFromEnvironment(env, "password")
+        config.username = getFromEnvironment(env, "USERNAME")
+        config.password = getFromEnvironment(env, "PASSWORD")
         config.minimumIdle = minIdle
         config.maxLifetime = maxLifetimeMs
         config.maximumPoolSize = maxPoolSize
@@ -24,5 +24,4 @@ internal object DataSourceConfig {
         config.connectionTimeout = connectionTimeoutMs
         return HikariDataSource(config)
     }
-
 }
