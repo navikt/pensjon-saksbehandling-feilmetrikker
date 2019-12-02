@@ -30,8 +30,4 @@ spec:
     path: /metrics
   vault:
     enabled: true
-    paths:
-      - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/preprod/fss/saksbehandling-feilmetrikker/default
-      - mountPath: /secrets/oracle
-        kvPath: oracle/data/dev/creds/pen_q0-saksbehandling-feilmetrikker
+    
