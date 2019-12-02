@@ -30,4 +30,3 @@ spec:
     path: /metrics
   vault:
     enabled: true
-    

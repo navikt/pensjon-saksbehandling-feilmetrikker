@@ -33,7 +33,7 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.12.3")
     testImplementation("org.testcontainers:oracle-xe:1.12.3")
     testImplementation("org.testcontainers:junit-jupiter:1.12.3")
-    testImplementation("com.oracle.ojdbc:ojdbc8:19.3.0.0")
+    implementation("com.oracle.ojdbc:ojdbc8:19.3.0.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
