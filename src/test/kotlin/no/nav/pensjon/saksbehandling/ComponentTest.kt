@@ -23,7 +23,7 @@ internal object ComponentTest {
     private const val METRICS = "metrics"
     private const val DEFAULT_PORT = 8080
     private const val HTTP_OK = 200
-    private const val QUERY_FREQUENCY_IN_MS = 0L
+    private const val QUERY_FREQUENCY = 0L
     private const val EXPECTED_METRICS_TEXT = """# HELP total_errors_from_psak Antall feil registrert i T_AVVIKSINFORMASJON i PSAK
 # TYPE total_errors_from_psak counter
 total_errors_from_psak 2.0
@@ -42,7 +42,7 @@ total_errors_from_psak 2.0
         datasource = createOracleDatasource(oracleContainer)
         app = App(DEFAULT_PORT, datasource)
         populateT_AVVIKSINFORMASJON(datasource)
-        app.start(QUERY_FREQUENCY_IN_MS, loopForever = false)
+        app.start(QUERY_FREQUENCY, loopForever = false)
     }
 
     @JvmStatic

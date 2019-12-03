@@ -19,7 +19,7 @@ fun main() {
 
 internal class App(private val serverPort: Int = 8080, val datasource: DataSource) {
 
-    private var database: Database = Database(datasource)
+    private val database: Database = Database(datasource)
     private val server = embeddedServer(Netty, createApplicationEnvironment())
     private val tenMinutes = 600000L
 
@@ -33,13 +33,13 @@ internal class App(private val serverPort: Int = 8080, val datasource: DataSourc
         module { nais() }
     }
 
-    internal fun start(queryFrequencyInMilliseconds: Long = tenMinutes, loopForever: Boolean = true) {
+    internal fun start(queryFrequency: Long = tenMinutes, loopForever: Boolean = true) {
         server.let { app ->
             app.start(wait = false)
             do {
                 totalErrorFromPsak.clear()
                 totalErrorFromPsak.inc(database.countTechnicalErrorsFromPsak())
-                sleep(queryFrequencyInMilliseconds)
+                sleep(queryFrequency)
             } while (loopForever)
         }
     }
