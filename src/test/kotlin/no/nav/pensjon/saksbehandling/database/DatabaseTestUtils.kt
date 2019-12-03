@@ -7,9 +7,9 @@ import javax.sql.DataSource
 
 internal object DatabaseTestUtils {
 
-    fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
+    internal fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
 
-    fun createOracleDatasource(oracleContainer: OracleContainer) = HikariDataSource(
+    internal fun createOracleDatasource(oracleContainer: OracleContainer) = HikariDataSource(
         HikariConfig().apply {
             addDataSourceProperty("oracle.jdbc.timezoneAsRegion", "false")
             maxLifetime = 30001L
@@ -19,7 +19,7 @@ internal object DatabaseTestUtils {
             password = oracleContainer.password
         })
 
-    fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
+    internal fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
         setDatabaseUserForSession(dataSource)
         createTableT_AVVIKSINFORMASJON(dataSource)
         insertDataInT_AVVIKSINFORMASJON(dataSource)

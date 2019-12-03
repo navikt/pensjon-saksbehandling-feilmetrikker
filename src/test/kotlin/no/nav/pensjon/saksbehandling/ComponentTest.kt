@@ -56,13 +56,13 @@ total_errors_from_psak 2.0
     }
 
     @Test
-    fun `isAlive returns 200 OK when server is running`() = testEndpoint(IS_ALIVE)
+    internal fun `isAlive returns 200 OK when server is running`() = testEndpoint(IS_ALIVE)
 
     @Test
-    fun `isReady returns 200 OK when server is running`() = testEndpoint(IS_READY)
+    internal fun `isReady returns 200 OK when server is running`() = testEndpoint(IS_READY)
 
     @Test
-    fun `metrics returns 200 OK when server is running`() = testEndpoint(METRICS)
+    internal fun `metrics returns 200 OK when server is running`() = testEndpoint(METRICS)
 
     private fun testEndpoint(endpoint: String) = assertStatusCodeOK(sendToEndpoint(endpoint))
     private fun assertStatusCodeOK(response: HttpResponse<String>) =
