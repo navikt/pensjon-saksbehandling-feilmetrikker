@@ -1,8 +1,8 @@
-name: Deploy to NAIS
+name: Prod deployment
 on: push
 jobs:
-  deploy-to-dev:
-    name: Build, push and deploy to dev-fss
+  deploy-to-prod:
+    name: Build, push and deploy to prod-fss
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-java@v1

@@ -1,4 +1,4 @@
-name: Deploy to NAIS
+name: Preprod deployment
 on: push
 jobs:
   deploy-to-dev:
