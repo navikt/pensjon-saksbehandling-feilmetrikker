@@ -25,11 +25,10 @@ internal class App(private val datasource: DataSource) {
         .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK")
         .register()
 
-    fun createApplicationEnvironment(serverPort: Int = DEFAULT_PORT) = applicationEngineEnvironment {
+    private fun createApplicationEnvironment(serverPort: Int = DEFAULT_PORT) = applicationEngineEnvironment {
         connector {
             port = serverPort
         }
-
         module {
             nais()
         }
@@ -41,7 +40,6 @@ internal class App(private val datasource: DataSource) {
             val database = Database(datasource)
             totalErrorFromPsak.clear()
             totalErrorFromPsak.inc(database.countTechnicalErrorsFromPsak())
-
         }
     }
 }

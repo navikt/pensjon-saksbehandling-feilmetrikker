@@ -1,4 +1,4 @@
-package no.nav.pensjon.saksbehandling
+package no.nav.pensjon.saksbehandling.database
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource

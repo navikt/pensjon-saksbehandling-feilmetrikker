@@ -4,11 +4,11 @@ import java.sql.SQLException
 import javax.sql.DataSource
 
 internal class Database(private val dataSource: DataSource) {
-    companion object {
+    private companion object {
         private const val QUERY = "SELECT COUNT(*) FROM PEN.T_AVVIKSINFORMASJON WHERE APPLIKASJON = 'PSAK'"
     }
 
-    fun countTechnicalErrorsFromPsak(): Double = try {
+    internal fun countTechnicalErrorsFromPsak(): Double = try {
         dataSource.connection.use {
             val response = it.prepareStatement(QUERY).executeQuery()
             response.next()

@@ -1,10 +1,8 @@
-package no.nav.pensjon.saksbehandling
+package no.nav.pensjon.saksbehandling.database
 
-import no.nav.pensjon.saksbehandling.DatabaseTestUtils.createOracleDatasource
-import no.nav.pensjon.saksbehandling.DatabaseTestUtils.populateT_AVVIKSINFORMASJON
-import no.nav.pensjon.saksbehandling.DatabaseTestUtils.setupOracleContainer
-import no.nav.pensjon.saksbehandling.database.CantQueryPenDatabase
-import no.nav.pensjon.saksbehandling.database.Database
+import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.createOracleDatasource
+import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.populateT_AVVIKSINFORMASJON
+import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.setupOracleContainer
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.testcontainers.containers.OracleContainer
