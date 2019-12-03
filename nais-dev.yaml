@@ -1,0 +1,37 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: pensjon-saksbehandling-feilmetrikker
+  namespace: default
+  labels:
+    team: pensjonsaksbehandling
+spec:
+  image: {{ image }}:{{ tag }}
+  team: pensjonsaksbehandling
+  port: 8080
+  ingresses:
+    - {{ingress}}
+  liveness:
+    path: isAlive
+    initialDelay: 5
+  readiness:
+    path: isReady
+    initialDelay: 5
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+  replicas:
+    min: 1
+    max: 1
+    cpuThresholdPercentage: 90
+  prometheus:
+    enabled: true
+    path: /metrics
+  vault:
+    enabled: true
+    paths:
+      - mountPath: /var/run/secrets/nais.io/vault
+        kvPath: /kv/preprod/fss/pensjon-saksbehandling-feilmetrikker/default
+      - mountPath: /secrets/oracle
+        kvPath: oracle/data/dev/creds/pen_q0-saksbehandling-feilmetrikker

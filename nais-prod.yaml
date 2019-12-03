@@ -10,7 +10,7 @@ spec:
   team: pensjonsaksbehandling
   port: 8080
   ingresses:
-    - https://pensjon-saksbehandling-feilmetrikker.nais.preprod.local
+    - {{ingress}}
   liveness:
     path: isAlive
     initialDelay: 5
@@ -32,6 +32,6 @@ spec:
     enabled: true
     paths:
       - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/preprod/fss/pensjon-saksbehandling-feilmetrikker/default
+        kvPath: /kv/prod/fss/pensjon-saksbehandling-feilmetrikker/default
       - mountPath: /secrets/oracle
-        kvPath: oracle/data/dev/creds/pen_q0-saksbehandling-feilmetrikker
+        kvPath: oracle/data/prod/creds/pen-saksbehandling-feilmetrikker
