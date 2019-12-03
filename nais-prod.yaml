@@ -10,7 +10,7 @@ spec:
   team: pensjonsaksbehandling
   port: 8080
   ingresses:
-    - {{ingress}}
+    - https://pensjon-saksbehandling-feilmetrikker.nais.adeo.no
   liveness:
     path: isAlive
     initialDelay: 5
