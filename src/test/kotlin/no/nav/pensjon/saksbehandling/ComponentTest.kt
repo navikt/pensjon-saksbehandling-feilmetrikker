@@ -21,9 +21,9 @@ internal object ComponentTest {
     private const val IS_ALIVE = "isAlive"
     private const val IS_READY = "isReady"
     private const val METRICS = "metrics"
+    private const val DEFAULT_PORT = 8080
     private const val HTTP_OK = 200
-
-    private const val expectedMetricsText = """# HELP total_errors_from_psak Antall feil registrert i T_AVVIKSINFORMASJON i PSAK
+    private const val EXPECTED_METRICS_TEXT = """# HELP total_errors_from_psak Antall feil registrert i T_AVVIKSINFORMASJON i PSAK
 # TYPE total_errors_from_psak counter
 total_errors_from_psak 2.0
 """
@@ -39,7 +39,7 @@ total_errors_from_psak 2.0
     internal fun startServer() {
         oracleContainer.start()
         datasource = createOracleDatasource(oracleContainer)
-        app = App(datasource)
+        app = App(DEFAULT_PORT, datasource)
         populateT_AVVIKSINFORMASJON(datasource)
         app.start()
     }
@@ -52,7 +52,7 @@ total_errors_from_psak 2.0
 
     @Test
     internal fun `app gets error count from database and publishes it to error count metric`() {
-        assertEquals(expectedMetricsText, sendToEndpoint(METRICS).body().toString())
+        assertEquals(EXPECTED_METRICS_TEXT, sendToEndpoint(METRICS).body().toString())
     }
 
     @Test

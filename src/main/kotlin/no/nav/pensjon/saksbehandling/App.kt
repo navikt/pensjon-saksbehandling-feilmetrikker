@@ -11,31 +11,28 @@ import no.nav.pensjon.saksbehandling.nais.nais
 import java.lang.System.getenv
 import javax.sql.DataSource
 
-const val DEFAULT_PORT = 8080
-
 fun main() {
-    val app = App(createDatasource(getenv()))
+    val app = App(datasource = createDatasource(getenv()))
     app.start()
 }
 
-internal class App(private val datasource: DataSource) {
-
+internal class App(private val defaultPort: Int = 8080, val datasource: DataSource) {
     private val totalErrorFromPsak = Counter.build()
         .name("total_errors_from_psak")
         .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK")
         .register()
 
-    private fun createApplicationEnvironment(serverPort: Int = DEFAULT_PORT) = applicationEngineEnvironment {
+    private fun createApplicationEnvironment() = applicationEngineEnvironment {
         connector {
-            port = serverPort
+            port = defaultPort
         }
         module {
             nais()
         }
     }
 
-    internal fun start(port: Int = DEFAULT_PORT) {
-        embeddedServer(Netty, createApplicationEnvironment(port)).let { app ->
+    internal fun start() {
+        embeddedServer(Netty, createApplicationEnvironment()).let { app ->
             app.start(wait = false)
             val database = Database(datasource)
             totalErrorFromPsak.clear()
