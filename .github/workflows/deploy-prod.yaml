@@ -36,4 +36,4 @@ jobs:
         with:
           cluster: prod-fss
           team: pensjonsaksbehandling
-          resources: prod-nais.yaml
+          resources: nais-prod.yaml
