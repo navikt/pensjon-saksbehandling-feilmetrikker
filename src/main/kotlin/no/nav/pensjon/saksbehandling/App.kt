@@ -5,9 +5,12 @@ import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.prometheus.client.Counter
+import no.nav.pensjon.saksbehandling.database.DataSourceConfig
 import no.nav.pensjon.saksbehandling.database.DataSourceConfig.createDatasource
 import no.nav.pensjon.saksbehandling.database.Database
 import no.nav.pensjon.saksbehandling.nais.nais
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.lang.System.getenv
 import java.lang.Thread.sleep
 import javax.sql.DataSource
@@ -18,7 +21,7 @@ fun main() {
 }
 
 internal class App(private val serverPort: Int = 8080, val datasource: DataSource) {
-
+    private val LOG: Logger = LoggerFactory.getLogger(App::class.java)
     private val database: Database = Database(datasource)
     private val server = embeddedServer(Netty, createApplicationEnvironment())
     private val tenMinutes = 600000L
@@ -37,8 +40,10 @@ internal class App(private val serverPort: Int = 8080, val datasource: DataSourc
         server.let { app ->
             app.start(wait = false)
             do {
+                val sumErrorsFromPsak = database.countTechnicalErrorsFromPsak()
+                LOG.info("Sum technical errors from PSAK: $sumErrorsFromPsak")
                 totalErrorFromPsak.clear()
-                totalErrorFromPsak.inc(database.countTechnicalErrorsFromPsak())
+                totalErrorFromPsak.inc(sumErrorsFromPsak)
                 sleep(queryFrequency)
             } while (loopForever)
         }
