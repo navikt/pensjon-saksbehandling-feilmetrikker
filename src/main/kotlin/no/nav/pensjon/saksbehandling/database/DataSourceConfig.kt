@@ -13,7 +13,7 @@ internal object DataSourceConfig {
     private const val minIdle = 0
     private const val maxLifetimeMs = 30001L
     private const val maxPoolSize = 3
-    private const val connectionTimeoutMs = 250L
+    private const val connectionTimeoutMs = 1000L
     private const val idleTimeoutMs = 10001L
 
     fun createDatasource(env: Map<String, String>): HikariDataSource {
