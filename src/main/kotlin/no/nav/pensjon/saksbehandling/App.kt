@@ -5,7 +5,7 @@ import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.prometheus.client.Counter
-import no.nav.pensjon.saksbehandling.database.DataSourceConfig
+import no.nav.pensjon.saksbehandling.database.CantQueryPenDatabase
 import no.nav.pensjon.saksbehandling.database.DataSourceConfig.createDatasource
 import no.nav.pensjon.saksbehandling.database.Database
 import no.nav.pensjon.saksbehandling.nais.nais
@@ -24,10 +24,15 @@ internal class App(private val serverPort: Int = 8080, val datasource: DataSourc
     private val LOG: Logger = LoggerFactory.getLogger(App::class.java)
     private val database: Database = Database(datasource)
     private val server = embeddedServer(Netty, createApplicationEnvironment())
-    private val tenMinutes = 600000L
+    private val oneMinute = 60000L
 
     private val totalErrorFromPsak = Counter.build()
         .name("total_errors_from_psak")
+        .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK")
+        .register()
+
+    private val cantQueryDbCounter = Counter.build()
+        .name("sum_errors_connecting_to_db")
         .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK")
         .register()
 
@@ -36,15 +41,20 @@ internal class App(private val serverPort: Int = 8080, val datasource: DataSourc
         module { nais() }
     }
 
-    internal fun start(queryFrequency: Long = tenMinutes, loopForever: Boolean = true) {
+    internal fun start(queryFrequency: Long = oneMinute, loopForever: Boolean = true) {
         server.let { app ->
             app.start(wait = false)
             do {
-                val sumErrorsFromPsak = database.countTechnicalErrorsFromPsak()
-                LOG.info("Sum technical errors from PSAK: $sumErrorsFromPsak")
-                totalErrorFromPsak.clear()
-                totalErrorFromPsak.inc(sumErrorsFromPsak)
-                sleep(queryFrequency)
+                try {
+                    val sumErrorsFromPsak = database.countTechnicalErrorsFromPsak()
+                    LOG.info("Sum technical errors from PSAK: $sumErrorsFromPsak")
+                    totalErrorFromPsak.clear()
+                    totalErrorFromPsak.inc(sumErrorsFromPsak)
+                    sleep(queryFrequency)
+                } catch (e: CantQueryPenDatabase) {
+                    LOG.error("Cant connect to db.", e)
+                    cantQueryDbCounter.inc()
+                }
             } while (loopForever)
         }
     }
