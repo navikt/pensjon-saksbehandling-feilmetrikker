@@ -5,7 +5,7 @@ import javax.sql.DataSource
 
 internal class Database(private val dataSource: DataSource) {
     private companion object {
-        private const val QUERY = "SELECT COUNT(*) FROM PEN.T_AVVIKSINFORMASJON WHERE APPLIKASJON = 'PSAK'"
+        private const val QUERY = "SELECT COUNT(1) FROM PEN.T_AVVIKSINFORMASJON WHERE APPLIKASJON = 'PSAK'"
     }
 
     internal fun countTechnicalErrorsFromPsak(): Double = try {
