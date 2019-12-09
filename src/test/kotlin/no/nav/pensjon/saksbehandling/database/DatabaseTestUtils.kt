@@ -33,15 +33,15 @@ internal object DatabaseTestUtils {
 
     private fun createTableT_AVVIKSINFORMASJON(dataSource: DataSource) {
         dataSource.connection.createStatement()
-            .executeQuery("CREATE TABLE PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID NUMBER, APPLIKASJON VARCHAR2(50 CHAR))");
+            .executeQuery("""CREATE TABLE PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID NUMBER, APPLIKASJON VARCHAR2(50 CHAR))""")
     }
 
     private fun insertDataInT_AVVIKSINFORMASJON(dataSource: DataSource) {
         dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(1, 'PSAK')");
+            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(1, 'PSAK')")
         dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(2, 'PSAK')");
+            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(2, 'PSAK')")
         dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(2, 'PSELV')");
+            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(3, 'PSELV')")
     }
 }

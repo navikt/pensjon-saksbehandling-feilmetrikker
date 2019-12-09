@@ -16,7 +16,7 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.exporter.common.TextFormat
 
-fun Application.nais(
+internal fun Application.nais(
     collectorRegistry: CollectorRegistry = CollectorRegistry.defaultRegistry
 ) {
 

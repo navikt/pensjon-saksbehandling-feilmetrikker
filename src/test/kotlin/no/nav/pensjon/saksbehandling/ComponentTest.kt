@@ -25,11 +25,7 @@ internal object ComponentTest {
     private const val DEFAULT_PORT = 8080
     private const val HTTP_OK = 200
     private const val QUERY_FREQUENCY = 0L
-    private const val EXPECTED_METRICS_TEXT =
-        """# HELP total_errors_from_psak Antall feil registrert i T_AVVIKSINFORMASJON i PSAK
-# TYPE total_errors_from_psak counter
-total_errors_from_psak 2.0
-"""
+    private const val EXPECTED_METRICS_TEXT = "total_errors_from_psak 2.0"
     private val client = HttpClient.newHttpClient()
 
     @Container
@@ -49,14 +45,11 @@ total_errors_from_psak 2.0
 
     @JvmStatic
     @AfterAll
-    internal fun tearDown() {
-        oracleContainer.stop()
-    }
+    internal fun tearDown() = oracleContainer.stop()
 
     @Test
-    internal fun `app gets error count from database and publishes it to error count metric`() {
+    internal fun `app gets error count from database and publishes it to error count metric`() =
         assertTrue(sendToEndpoint(METRICS).body().toString().contains(EXPECTED_METRICS_TEXT))
-    }
 
     @Test
     internal fun `isAlive returns 200 OK when server is running`() = testEndpoint(IS_ALIVE)

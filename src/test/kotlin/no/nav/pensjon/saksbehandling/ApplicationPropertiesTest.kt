@@ -4,12 +4,11 @@ import no.nav.pensjon.saksbehandling.ApplicationProperties.getFromEnvironment
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
-import java.util.*
 
 internal object ApplicationPropertiesTest {
     private const val JDBC_URL = "jdbc_url"
     private const val JDBC_URL_KEY = "DB_URL"
-    private val environment = HashMap<String, String>()
+    private val environment = mutableMapOf<String, String>()
 
     @Test
     internal fun `get jdbc url from environment returns the url`() {
@@ -21,5 +20,4 @@ internal object ApplicationPropertiesTest {
     internal fun `MissingApplicationConfig is thrown when environment variable is missing`() {
         assertThrows(MissingApplicationConfig::class.java) { getFromEnvironment(environment, "invalid") }
     }
-
 }
