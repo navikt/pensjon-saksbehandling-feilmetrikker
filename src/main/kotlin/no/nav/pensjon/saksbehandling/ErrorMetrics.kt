@@ -12,14 +12,22 @@ internal class ErrorMetrics {
         .name("sum_errors_connecting_to_db")
         .help("Antall tilkoblingsfeil mot pensjonsdatabasen").register()
 
-    private val totalErrorFromPsak = Counter.build()
-        .name("total_errors_from_psak")
+    private val avviksinformasjonFromPsakCounter = Counter.build()
+        .name("sum_avviksinformasjon_from_psak")
+        .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK").register()
+
+    private val avvikstilfellerFromPsakCounter = Counter.build()
+        .name("sum_avvikstilfeller_from_psak")
         .help("Antall feil registrert i T_AVVIKSINFORMASJON i PSAK").register()
 
     internal fun query(database: Database) {
-        val sumErrorsFromPsak = database.countTechnicalErrorsFromPsak()
-        log.info("Sum technical errors from PSAK: $sumErrorsFromPsak")
-        totalErrorFromPsak.clear()
-        totalErrorFromPsak.inc(sumErrorsFromPsak)
+        val sumAvviksinformasjonFromPsak = database.countAvviksinformasjonFromPsak()
+        val sumAvvikstilfellerFromPsak = database.countAvviksinformasjonFromPsak()
+        log.info("Sum avviksinformasjon from PSAK: $sumAvviksinformasjonFromPsak")
+        log.info("Sum avvikstilfeller from PSAK: $sumAvviksinformasjonFromPsak")
+        avviksinformasjonFromPsakCounter.clear()
+        avvikstilfellerFromPsakCounter.clear()
+        avviksinformasjonFromPsakCounter.inc(sumAvviksinformasjonFromPsak)
+        avvikstilfellerFromPsakCounter.inc(sumAvvikstilfellerFromPsak)
     }
 }

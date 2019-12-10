@@ -23,8 +23,9 @@ internal object ComponentTest {
     private const val METRICS = "metrics"
     private const val DEFAULT_PORT = 8080
     private const val HTTP_OK = 200
-    private const val QUERY_FREQUENCY = 0L
-    private const val EXPECTED_METRICS_TEXT = "total_errors_from_psak 2.0"
+    private const val ZERO_MS = 0L
+    private const val EXPECTED_AVVIKSINFORMASJON_METRICS_TEXT = "sum_avviksinformasjon_from_psak 2.0"
+    private const val EXPECTED_AVVIKSTILFELLER_METRICS_TEXT = "sum_avvikstilfeller_from_psak 2.0"
     private val client = HttpClient.newHttpClient()
 
     @Container
@@ -38,7 +39,7 @@ internal object ComponentTest {
         oracleContainer.start()
         datasource = createOracleDatasource(oracleContainer)
         app = App(DEFAULT_PORT, datasource)
-        app.start(QUERY_FREQUENCY, loopForever = false)
+        app.start(queryFrequency = ZERO_MS, loopForever = false)
     }
 
     @JvmStatic
@@ -46,8 +47,10 @@ internal object ComponentTest {
     internal fun tearDown() = oracleContainer.stop()
 
     @Test
-    internal fun `app gets error count from database and publishes it to error count metric`() =
-        assertTrue(sendToEndpoint(METRICS).body().toString().contains(EXPECTED_METRICS_TEXT))
+    internal fun `app gets error count from database and publishes it to error count metric`() {
+        assertTrue(sendToEndpoint(METRICS).body().toString().contains(EXPECTED_AVVIKSINFORMASJON_METRICS_TEXT))
+        assertTrue(sendToEndpoint(METRICS).body().toString().contains(EXPECTED_AVVIKSTILFELLER_METRICS_TEXT))
+    }
 
     @Test
     internal fun `isAlive returns 200 OK when server is running`() = testEndpoint(IS_ALIVE)

@@ -15,7 +15,8 @@ internal object DatabaseTest {
 
     @Container
     private var oracleContainer: OracleContainer = setupOracleContainer()
-    private const val SUM_TECHNICAL_ERRORS_FROM_PSAK = 2.00
+    private const val SUM_AVVIKSINFORMASJON_FROM_PSAK = 2.00
+    private const val SUM_AVVIKSTILFELLER_FROM_PSAK = 2.00
     private lateinit var oracleDataSource: DataSource
     private lateinit var database: Database
 
@@ -29,14 +30,19 @@ internal object DatabaseTest {
 
     @Test
     @Order(1)
-    internal fun `given 2 errors from psak in T_AVVIKSINFORMASJON, 2 errors will be returned from countTechnicalErrorsFromPsak`() =
-        assertEquals(SUM_TECHNICAL_ERRORS_FROM_PSAK, database.countTechnicalErrorsFromPsak())
+    internal fun `given 2 errors from psak in T_AVVIKSINFORMASJON, 2 errors will be returned from countAvviksinformasjonFromPsak`() =
+        assertEquals(SUM_AVVIKSINFORMASJON_FROM_PSAK, database.countAvviksinformasjonFromPsak())
 
     @Test
     @Order(2)
+    internal fun `given 2 errors from psak in T_AVVIKSTILFELLER, 2 errors will be returned from countAvvikstilfellerFromPsak`() =
+        assertEquals(SUM_AVVIKSTILFELLER_FROM_PSAK, database.countAvvikstilfellerFromPsak())
+
+    @Test
+    @Order(3)
     internal fun `when database is unavailable, throw CantQueryPenDatabase`() {
         breakDatabaseConnection()
-        assertThrows<CantQueryPenDatabase> { database.countTechnicalErrorsFromPsak() }
+        assertThrows<CantQueryPenDatabase> { database.countAvviksinformasjonFromPsak() }
     }
 
     private fun breakDatabaseConnection() {
