@@ -1,7 +1,6 @@
 package no.nav.pensjon.saksbehandling
 
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.createOracleDatasource
-import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.populateT_AVVIKSINFORMASJON
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.setupOracleContainer
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -39,7 +38,6 @@ internal object ComponentTest {
         oracleContainer.start()
         datasource = createOracleDatasource(oracleContainer)
         app = App(DEFAULT_PORT, datasource)
-        populateT_AVVIKSINFORMASJON(datasource)
         app.start(QUERY_FREQUENCY, loopForever = false)
     }
 

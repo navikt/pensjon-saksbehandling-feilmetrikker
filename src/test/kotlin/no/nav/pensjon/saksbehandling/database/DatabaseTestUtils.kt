@@ -3,11 +3,16 @@ package no.nav.pensjon.saksbehandling.database
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.testcontainers.containers.OracleContainer
-import javax.sql.DataSource
+import org.testcontainers.utility.MountableFile
 
 internal object DatabaseTestUtils {
+    private const val INIT_DB_SCRIPT_FOLDER = "/docker-entrypoint-initdb.d/schema.sql"
+    private const val INIT_SCRIPT = "schema.sql"
 
-    internal fun setupOracleContainer() = OracleContainer("oracleinanutshell/oracle-xe-11g")
+    internal fun setupOracleContainer(): OracleContainer {
+        return OracleContainer("oracleinanutshell/oracle-xe-11g")
+            .withCopyFileToContainer(MountableFile.forClasspathResource(INIT_SCRIPT), INIT_DB_SCRIPT_FOLDER)
+    }
 
     internal fun createOracleDatasource(oracleContainer: OracleContainer) = HikariDataSource(
         HikariConfig().apply {
@@ -18,30 +23,4 @@ internal object DatabaseTestUtils {
             username = oracleContainer.username
             password = oracleContainer.password
         })
-
-    internal fun populateT_AVVIKSINFORMASJON(dataSource: DataSource) {
-        setDatabaseUserForSession(dataSource)
-        createTableT_AVVIKSINFORMASJON(dataSource)
-        insertDataInT_AVVIKSINFORMASJON(dataSource)
-    }
-
-    private fun setDatabaseUserForSession(dataSource: DataSource) {
-        dataSource.connection.createStatement().execute("CREATE USER PEN IDENTIFIED BY opensourcedPassword")
-        dataSource.connection.createStatement().execute("GRANT UNLIMITED TABLESPACE TO PEN")
-        dataSource.connection.createStatement().execute("ALTER SESSION SET CURRENT_SCHEMA = PEN")
-    }
-
-    private fun createTableT_AVVIKSINFORMASJON(dataSource: DataSource) {
-        dataSource.connection.createStatement()
-            .executeQuery("""CREATE TABLE PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID NUMBER, APPLIKASJON VARCHAR2(50 CHAR))""")
-    }
-
-    private fun insertDataInT_AVVIKSINFORMASJON(dataSource: DataSource) {
-        dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(1, 'PSAK')")
-        dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(2, 'PSAK')")
-        dataSource.connection.createStatement()
-            .executeQuery("INSERT INTO PEN.T_AVVIKSINFORMASJON (AVVIKSINFORMASJON_ID, APPLIKASJON) VALUES(3, 'PSELV')")
-    }
 }

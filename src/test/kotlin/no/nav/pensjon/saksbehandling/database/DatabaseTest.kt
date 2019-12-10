@@ -1,7 +1,6 @@
 package no.nav.pensjon.saksbehandling.database
 
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.createOracleDatasource
-import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.populateT_AVVIKSINFORMASJON
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.setupOracleContainer
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -30,10 +29,8 @@ internal object DatabaseTest {
 
     @Test
     @Order(1)
-    internal fun `given 2 errors from psak in T_AVVIKSINFORMASJON, 2 errors will be returned from countTechnicalErrorsFromPsak`() {
-        populateT_AVVIKSINFORMASJON(oracleDataSource)
+    internal fun `given 2 errors from psak in T_AVVIKSINFORMASJON, 2 errors will be returned from countTechnicalErrorsFromPsak`() =
         assertEquals(SUM_TECHNICAL_ERRORS_FROM_PSAK, database.countTechnicalErrorsFromPsak())
-    }
 
     @Test
     @Order(2)
