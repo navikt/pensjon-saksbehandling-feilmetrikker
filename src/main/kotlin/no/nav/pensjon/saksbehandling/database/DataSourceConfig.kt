@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 internal object DataSourceConfig {
 
-    private val LOG: Logger = LoggerFactory.getLogger(DataSourceConfig::class.java)
+    private val log: Logger = LoggerFactory.getLogger(DataSourceConfig::class.java)
 
     private const val minIdle = 0
     private const val maxLifetimeMs = 30001L
@@ -26,7 +26,7 @@ internal object DataSourceConfig {
         config.maximumPoolSize = maxPoolSize
         config.idleTimeout = idleTimeoutMs
         config.connectionTimeout = connectionTimeoutMs
-        LOG.info("Datasource created with JDBC_URL: ${config.jdbcUrl} and USERNAME: ${config.username}")
+        log.info("Datasource created with JDBC_URL: ${config.jdbcUrl} and USERNAME: ${config.username}")
         return HikariDataSource(config)
     }
 }
