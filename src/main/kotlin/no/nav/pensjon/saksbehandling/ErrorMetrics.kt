@@ -22,9 +22,9 @@ internal class ErrorMetrics {
 
     internal fun query(database: Database) {
         val sumAvviksinformasjonFromPsak = database.countAvviksinformasjonFromPsak()
-        val sumAvvikstilfellerFromPsak = database.countAvviksinformasjonFromPsak()
+        val sumAvvikstilfellerFromPsak = database.countAvvikstilfellerFromPsak()
         log.info("Sum avviksinformasjon from PSAK: $sumAvviksinformasjonFromPsak")
-        log.info("Sum avvikstilfeller from PSAK: $sumAvviksinformasjonFromPsak")
+        log.info("Sum avvikstilfeller from PSAK: $sumAvvikstilfellerFromPsak")
         avviksinformasjonFromPsakCounter.clear()
         avvikstilfellerFromPsakCounter.clear()
         avviksinformasjonFromPsakCounter.inc(sumAvviksinformasjonFromPsak)
