@@ -21,9 +21,12 @@ fun main() {
 
 internal class App(serverPort: Int = 8080, datasource: DataSource) {
     private val log: Logger = LoggerFactory.getLogger(App::class.java)
-    private val database: Database = Database(datasource)
+    private val database: Database = Database(datasource::getConnection)
     private val oneMinute = 60000L
-    private val errorMetrics = ErrorMetrics()
+    private val metrics = listOf(
+        AvviksInformasjon(database)
+        , AvviksTilfeller(database)
+    )
 
     init {
         val server = embeddedServer(Netty, createApplicationEnvironment(serverPort))
@@ -37,12 +40,16 @@ internal class App(serverPort: Int = 8080, datasource: DataSource) {
 
     internal fun start(queryFrequency: Long = oneMinute, loopForever: Boolean = true) {
         do try {
-            errorMetrics.query(database)
+            metrics.forEach { it.update() }
             sleep(queryFrequency)
         } catch (e: CantQueryPenDatabase) {
             log.error("Cant connect to db.", e)
-            errorMetrics.cantQueryDbCounter.inc()
+            ErrorMetrics.cantQueryDbCounter.inc()
         } while (loopForever)
     }
-}
 
+
+}
+interface Metric{
+    fun update()
+}
