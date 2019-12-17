@@ -5,10 +5,11 @@ import com.zaxxer.hikari.HikariDataSource
 import no.nav.pensjon.saksbehandling.ApplicationProperties.getFromEnvironment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 
 internal object DataSourceConfig {
 
-    private val log: Logger = LoggerFactory.getLogger(DataSourceConfig::class.java)
+    private val log: Logger = getLogger(DataSourceConfig::class.java)
 
     private const val minIdle = 0
     private const val maxLifetimeMs = 30001L
@@ -29,4 +30,6 @@ internal object DataSourceConfig {
         log.info("Datasource created with JDBC_URL: ${config.jdbcUrl} and USERNAME: ${config.username}")
         return HikariDataSource(config)
     }
+
+
 }

@@ -1,7 +1,7 @@
 package no.nav.pensjon.saksbehandling.database
 
-import no.nav.pensjon.saksbehandling.COUNT_AVVIKSINFORMASJON_PSAK
-import no.nav.pensjon.saksbehandling.COUNT_AVVIKSTILFELLER_PSAK
+import no.nav.pensjon.saksbehandling.counters.COUNT_AVVIKSINFORMASJON_PSAK
+import no.nav.pensjon.saksbehandling.counters.COUNT_AVVIKSTILFELLER_PSAK
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.createOracleDatasource
 import no.nav.pensjon.saksbehandling.database.DatabaseTestUtils.setupOracleContainer
 import org.junit.jupiter.api.*

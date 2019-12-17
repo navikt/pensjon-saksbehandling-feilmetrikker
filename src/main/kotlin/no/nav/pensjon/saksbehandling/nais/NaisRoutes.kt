@@ -15,6 +15,7 @@ import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.exporter.common.TextFormat
+import io.prometheus.client.exporter.common.TextFormat.write004 as write0041
 
 internal fun Application.nais(
     collectorRegistry: CollectorRegistry = CollectorRegistry.defaultRegistry
@@ -31,11 +32,12 @@ internal fun Application.nais(
     }
 }
 
+@Suppress("BlockingMethodInNonBlockingContext")
 private fun Routing.metricsRouting(collectorRegistry: CollectorRegistry) {
     get("/metrics") {
         val names = call.request.queryParameters.getAll("name[]")?.toSet() ?: emptySet()
         call.respondTextWriter(ContentType.parse(TextFormat.CONTENT_TYPE_004)) {
-            TextFormat.write004(this, collectorRegistry.filteredMetricFamilySamples(names))
+            write0041(this, collectorRegistry.filteredMetricFamilySamples(names))
         }
     }
 }

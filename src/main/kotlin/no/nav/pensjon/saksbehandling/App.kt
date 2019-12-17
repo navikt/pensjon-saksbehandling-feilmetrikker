@@ -4,9 +4,12 @@ import io.ktor.server.engine.applicationEngineEnvironment
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import no.nav.pensjon.saksbehandling.database.CantQueryPenDatabase
+import no.nav.pensjon.saksbehandling.counters.AvviksInformasjon
+import no.nav.pensjon.saksbehandling.counters.AvviksTilfeller
 import no.nav.pensjon.saksbehandling.database.DataSourceConfig.createDatasource
 import no.nav.pensjon.saksbehandling.database.Database
+import no.nav.pensjon.saksbehandling.database.CantQueryPenDatabase
+import no.nav.pensjon.saksbehandling.gauge.EndringFraForrigeUke
 import no.nav.pensjon.saksbehandling.nais.nais
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -23,10 +26,8 @@ internal class App(serverPort: Int = 8080, datasource: DataSource) {
     private val log: Logger = LoggerFactory.getLogger(App::class.java)
     private val database: Database = Database(datasource::getConnection)
     private val oneMinute = 60000L
-    private val metrics = listOf(
-        AvviksInformasjon(database)
-        , AvviksTilfeller(database)
-    )
+    private val metrics =
+        listOf(AvviksInformasjon(database), AvviksTilfeller(database), EndringFraForrigeUke(database))
 
     init {
         val server = embeddedServer(Netty, createApplicationEnvironment(serverPort))
@@ -48,8 +49,8 @@ internal class App(serverPort: Int = 8080, datasource: DataSource) {
         } while (loopForever)
     }
 
-
 }
-interface Metric{
+
+interface Metric {
     fun update()
 }
