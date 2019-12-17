@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory.getLogger
 
 internal fun counter(conf: Counter.Builder.() -> Unit) = Counter.build().apply(conf).register()
 
-open class PromethiusCounter(private val name: String, help: String) {
+open class PrometheusCounter(private val name: String, help: String) {
     companion object {
-        internal val log: Logger = getLogger(PromethiusCounter::class.java)
+        internal val log: Logger = getLogger(PrometheusCounter::class.java)
     }
 
     private val prometheusCounter = counter {

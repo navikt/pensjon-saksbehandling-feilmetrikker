@@ -9,7 +9,7 @@ const val COUNT_AVVIKSTILFELLER_PSAK = """SELECT COUNT(1) FROM PEN.T_AVVIKSINFOR
                 WHERE i.APPLIKASJON = 'PSAK'"""
 
 internal class AvviksTilfeller(private val db: Database) : Metric {
-    companion object : PromethiusCounter("Sum avvikstilfeller from PSAK", "Antall feil registrert i T_AVVIKSTILFELLER i PSAK")
+    companion object : PrometheusCounter("Sum avvikstilfeller from PSAK", "Antall feil registrert i T_AVVIKSTILFELLER i PSAK")
 
     override fun update() {
         setDouble(db.queryForDouble(COUNT_AVVIKSTILFELLER_PSAK))
