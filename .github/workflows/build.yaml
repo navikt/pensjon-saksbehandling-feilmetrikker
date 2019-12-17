@@ -1,0 +1,16 @@
+name: Build
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+jobs:
+  deploy-to-dev:
+    name: Build latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build code
+        run: ./gradlew test build --info
