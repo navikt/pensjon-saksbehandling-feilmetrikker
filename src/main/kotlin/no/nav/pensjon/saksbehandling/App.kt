@@ -41,8 +41,8 @@ internal class App(serverPort: Int = 8080, datasource: DataSource) {
 
     internal fun start(queryFrequency: Long = oneMinute, loopForever: Boolean = true) {
         do try {
-            metrics.forEach { it.update() }
             sleep(queryFrequency)
+            metrics.forEach { it.update() }
         } catch (e: CantQueryPenDatabase) {
             log.error("Cant connect to db.", e)
             ErrorMetrics.cantQueryDbCounter.inc()

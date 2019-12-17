@@ -7,14 +7,14 @@ val ONE_DAY_AGO = "select count(1) FROM PEN.T_AVVIKSINFORMASJON i\n" +
         "INNER JOIN PEN.T_AVVIKSGRUPPE g on g.AVVIKSINFORMASJON_ID = i.AVVIKSINFORMASJON_ID\n" +
         "INNER JOIN PEN.T_AVVIKSTILFELLE t on t.AVVIKSGRUPPE_ID = g.AVVIKSGRUPPE_ID\n" +
         "WHERE i.APPLIKASJON = 'PSAK'\n" +
-        "and t.TIDSPUNKT between (current_timestamp - interval '1' day) and current_timestamp;"
+        "and t.TIDSPUNKT between (current_timestamp - interval '1' day) and current_timestamp"
 
 
-val ONE_WEEK_AGO = "select count(1) FROM PEN.T_AVVIKSINFORMASJON i\n" +
+val ONE_WEEK_AGO = "SELECT COUNT(1) FROM PEN.T_AVVIKSINFORMASJON i\n" +
         "INNER JOIN PEN.T_AVVIKSGRUPPE g on g.AVVIKSINFORMASJON_ID = i.AVVIKSINFORMASJON_ID\n" +
         "INNER JOIN PEN.T_AVVIKSTILFELLE t on t.AVVIKSGRUPPE_ID = g.AVVIKSGRUPPE_ID\n" +
         "WHERE i.APPLIKASJON = 'PSAK'\n" +
-        "and t.TIDSPUNKT between (current_timestamp - interval '8' day) and (current_timestamp - interval '7' day);"
+        "and t.TIDSPUNKT between (current_timestamp - interval '8' day) and (current_timestamp - interval '7' day)"
 
 internal class EndringFraForrigeUke(private val db: Database) : Metric {
 
