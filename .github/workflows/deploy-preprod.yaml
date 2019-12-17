@@ -4,6 +4,8 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
     types: [closed]
 jobs:
   deploy-to-dev:
@@ -36,6 +38,7 @@ jobs:
         run: "docker push $(cat .docker_image):$(cat .docker_tag)"
       - name: deploy to dev-fss
         uses: navikt/deployment-cli/action@0.4.0
+        # TODO: For når vi går over til egen API-server for deploy
         # uses: nais/deploy/actions/deploy@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

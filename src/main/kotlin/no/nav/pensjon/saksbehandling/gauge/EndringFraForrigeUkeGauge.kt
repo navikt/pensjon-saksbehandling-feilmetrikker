@@ -19,7 +19,7 @@ val ONE_WEEK_AGO = "select count(1) FROM PEN.T_AVVIKSINFORMASJON i\n" +
 internal class EndringFraForrigeUke(private val db: Database) : Metric {
 
     companion object :
-        PrometheusGauge("Endringer i antall feil fra forrige uke til i dag", "Antall feil registrert i T_AVVIKSINFORMASJON i PSAK")
+        PrometheusGauge("Endringer i antall feil", "Endringer i antall feil fra forrige uke til i dag")
 
     override fun update() {
         val queryForOneDayAgo = db.queryForDouble(ONE_DAY_AGO)
