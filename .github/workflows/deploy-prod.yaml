@@ -1,5 +1,10 @@
 name: Prod deployment
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [closed]
 jobs:
   deploy-to-prod:
     name: Build, push and deploy to prod-fss
