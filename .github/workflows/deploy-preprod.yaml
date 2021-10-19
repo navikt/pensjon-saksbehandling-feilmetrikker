@@ -19,11 +19,14 @@ jobs:
         env:
           NAME: pensjon-saksbehandling-feilmetrikker
         run: |
-          echo "docker.pkg.github.com"/"$GITHUB_REPOSITORY"/"$NAME" > .docker_image
-          echo "$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" > .docker_tag
+          echo "IMAGE=docker.pkg.github.com/"$GITHUB_REPOSITORY"/"$NAME"" >> $GITHUB_ENV
+          echo "VERSION=$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       - name: Build Docker image
         run: |
-          docker build -t $(cat .docker_image):$(cat .docker_tag) .
+          docker build -t ${IMAGE}:${VERSION} .
+        env:
+          IMAGE: ${{ env.IMAGE }}
+          VERSION: ${{ env.VERSION }}
       - name: Login to Github Package Registry
         env:
           DOCKER_USERNAME: x-access-token
@@ -31,14 +34,14 @@ jobs:
         run: |
           echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin docker.pkg.github.com
       - name: Push Docker image
-        run: "docker push $(cat .docker_image):$(cat .docker_tag)"
+        run: docker push ${IMAGE}:${VERSION}
+        env:
+          IMAGE: ${{ env.IMAGE }}
+          VERSION: ${{ env.VERSION }}
       - name: deploy to dev-fss
-        uses: navikt/deployment-cli/action@0.4.0
-        # TODO: For når vi går over til egen API-server for deploy
-        # uses: nais/deploy/actions/deploy@master
+        uses: nais/deploy/actions/deploy@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cluster: dev-fss
-          team: pensjonsaksbehandling
-          resources: nais-dev.yaml
+          CLUSTER: dev-fss
+          RESOURCE: nais-dev.yaml
+          IMAGE: ${{ env.IMAGE }}:${{ env.VERSION }}
